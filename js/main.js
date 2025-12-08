@@ -193,7 +193,7 @@ async function createPosts (postId) {
         const compPhrase = createElemWithText(`p`, author.company.catchPhrase);
         const button = document.createElement(`button`);
         button.textContent = `Show Comments`;
-        button.dataset.postId = postId;
+        button.dataset.postId = post.id;
         const section = await displayComments(post.id);
         article.append(ptitle, pbody, id, authPost, compPhrase, button, section);
         frag.append(article);
@@ -237,14 +237,12 @@ async function refreshPosts (posts) {
 //19 selectMenuChangeEventHandler
 async function selectMenuChangeEventHandler (e) {
     if (!e) return;
-    //const select = document.querySelector("selectMenu");
-    //select.setAttribute("disabled", "")
-    //e.target.setAttribute("disabled", true);
-    const userId = e?.target?.value || 1;
+    e.disabled = true;
+    const userId = parseInt(e?.target?.value) || 1;
+    console.log(userId);
     const posts = await getUserPosts(userId);
     const refresh = await refreshPosts(posts);
-    //e.target.setAttribute("disabled", false);
-    //select.setAttribute("disabled", "true")
+    e.disabled = false;
     return [userId, posts, refresh];
 }
 
